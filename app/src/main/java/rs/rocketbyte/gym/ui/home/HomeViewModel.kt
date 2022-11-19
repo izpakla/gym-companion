@@ -2,7 +2,7 @@ package rs.rocketbyte.gym.ui.home
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import rs.rocketbyte.core.usecase.example.WorkoutUseCase
+import rs.rocketbyte.core.usecase.workout.WorkoutUseCase
 import javax.inject.Inject
 
 @HiltViewModel

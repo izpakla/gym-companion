@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Gym</string>
+    <string name="skip">Skip</string>
 </resources>

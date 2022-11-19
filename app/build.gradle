@@ -58,6 +58,10 @@ dependencies {
     implementation libs.android.hilt
     kapt libs.android.hilt.compiler
 
+    // Glide
+    implementation libs.glide
+    annotationProcessor libs.glide
+
     testImplementation libs.test.junit
     androidTestImplementation libs.android.test.junit
     androidTestImplementation libs.android.test.espresso

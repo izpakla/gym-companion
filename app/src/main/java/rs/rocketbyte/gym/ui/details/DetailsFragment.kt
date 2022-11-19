@@ -1,11 +1,13 @@
 package rs.rocketbyte.gym.ui.details
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import rs.rocketbyte.gym.databinding.FragmentDetailsBinding
 import rs.rocketbyte.gym.ui.commons.BindingFragment
@@ -26,6 +28,11 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         // Init views here
+        viewModel.load()
+
+        Glide.with(requireContext())
+            .load(Uri.parse("file:///android_asset/workouts/bodybuilding/assets/bench_press.gif"))
+            .into(binding.imageExercise)
     }
 
 }

@@ -1,18 +1,10 @@
 package rs.rocketbyte.data.remote
 
-import okhttp3.Cache
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import rs.rocketbyte.data.remote.api.ApiHelper.execute
-import rs.rocketbyte.data.remote.api.NetworkResult
 import rs.rocketbyte.data.remote.api.RestApiConfig
-import rs.rocketbyte.data.remote.api.service.ExampleService
 
 internal class DefaultRemoteDataSource(restApiConfig: RestApiConfig) : RemoteDataSource {
 
-    companion object {
+    /*companion object {
         const val CACHE_SIZE: Long = 5 * 1024 * 1024L
     }
 
@@ -36,6 +28,6 @@ internal class DefaultRemoteDataSource(restApiConfig: RestApiConfig) : RemoteDat
 
     suspend fun example(): NetworkResult<List<String>> = execute {
         exampleService.search("")
-    }
+    }*/
 
 }

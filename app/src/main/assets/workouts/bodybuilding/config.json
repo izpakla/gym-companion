@@ -1,0 +1,29 @@
+{
+  "name": "Bodybuilder",
+  "session": [
+    {
+      "name": "Running",
+      "description": "",
+      "image": "",
+      "set_count": 1,
+      "rest_duration": 360,
+      "reps_count": 1
+    },
+    {
+      "name": "Bench Press",
+      "description": "",
+      "image": "",
+      "set_count": 3,
+      "rest_duration": 180,
+      "reps_count": 10
+    },
+    {
+      "name": "Running",
+      "description": "",
+      "image": "",
+      "set_count": 1,
+      "rest_duration": 1200,
+      "reps_count": 1
+    }
+  ]
+}

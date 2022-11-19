@@ -6,6 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import rs.rocketbyte.core.usecase.workout.WorkoutUseCase
+import rs.rocketbyte.core.util.UseCaseInjector
 import javax.inject.Singleton
 
 @Module
@@ -16,7 +18,7 @@ object UseCaseModule {
     @Provides
     fun provideExampleUseCase(
         @ApplicationContext context: Context
-    ): rs.rocketbyte.core.usecase.example.WorkoutUseCase =
-        rs.rocketbyte.core.util.UseCaseInjector.getDefaultExampleUseCase(context)
+    ): WorkoutUseCase =
+        UseCaseInjector.getDefaultExampleUseCase(context)
 
 }
