@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.gym.databinding.FragmentDetailsBinding
 import rs.rocketbyte.gym.ui.commons.BindingFragment
 import rs.rocketbyte.gym.ui.main.MainViewModel
@@ -20,6 +21,8 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: DetailsViewModel by viewModels()
 
+    private val workout: Workout by lazy { DetailsFragmentArgs.fromBundle(requireArguments()).workout }
+
     override fun onBinderCreate(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -27,6 +30,8 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.loadWorkout(workout)
 
         /*viewModel.workout.observe(viewLifecycleOwner) {
             binding.textTitle.text = it.name

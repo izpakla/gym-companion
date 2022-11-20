@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import rs.rocketbyte.gym.databinding.FragmentHomeBinding
 import rs.rocketbyte.gym.ui.main.MainViewModel
@@ -18,6 +19,14 @@ class HomeFragment : rs.rocketbyte.gym.ui.commons.BindingFragment<FragmentHomeBi
     private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: HomeViewModel by viewModels()
 
+    private val adapter by lazy {
+        HomeAdapter {
+            findNavController().navigate(
+                HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it)
+            )
+        }
+    }
+
     override fun onBinderCreate(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -25,8 +34,12 @@ class HomeFragment : rs.rocketbyte.gym.ui.commons.BindingFragment<FragmentHomeBi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonDetails.setOnClickListener {
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment())
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = adapter
+
+        viewModel.workouts.observe(viewLifecycleOwner) {
+            adapter.setItems(it)
         }
     }
 

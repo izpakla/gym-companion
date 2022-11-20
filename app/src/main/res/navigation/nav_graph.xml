@@ -18,5 +18,9 @@
         android:id="@+id/detailsFragment"
         android:name="rs.rocketbyte.gym.ui.details.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="workout"
+            app:argType="rs.rocketbyte.core.model.Workout" />
+    </fragment>
 </navigation>

@@ -3,10 +3,7 @@ package rs.rocketbyte.gym.ui.details
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import rs.rocketbyte.core.model.Session
 import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.core.usecase.workout.WorkoutUseCase
@@ -16,10 +13,6 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor(
     private val workoutUseCase: WorkoutUseCase
 ) : ViewModel() {
-
-    init {
-        load()
-    }
 
     private val _workout = MutableLiveData<Workout>()
     val workout: LiveData<Workout>
@@ -31,16 +24,6 @@ class DetailsViewModel @Inject constructor(
 
     private var sessionIndex = 0
 
-    private fun load() {
-        sessionIndex = 0
-        viewModelScope.launch(Dispatchers.Default) {
-            val workouts = workoutUseCase.getAllWorkouts()
-            val first = workouts.firstOrNull() ?: return@launch
-            _workout.postValue(first)
-            nextSession(first.session.first())
-        }
-    }
-
     fun nextSession() {
         nextSession(_workout.value?.session?.getOrNull(sessionIndex))
     }
@@ -49,5 +32,13 @@ class DetailsViewModel @Inject constructor(
         val s = session ?: return
         sessionIndex++
         _currentSession.postValue(s)
+    }
+
+    fun loadWorkout(workout: Workout) {
+        if (_workout.value == null) {
+            sessionIndex = 0
+            _workout.postValue(workout)
+            nextSession(workout.session.first())
+        }
     }
 }
