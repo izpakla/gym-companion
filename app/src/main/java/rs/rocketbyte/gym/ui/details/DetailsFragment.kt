@@ -27,12 +27,22 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Init views here
-        viewModel.load()
 
-        Glide.with(requireContext())
-            .load(Uri.parse("file:///android_asset/workouts/bodybuilding/assets/bench_press.gif"))
-            .into(binding.imageExercise)
+        /*viewModel.workout.observe(viewLifecycleOwner) {
+            binding.textTitle.text = it.name
+        }*/
+
+        viewModel.currentSession.observe(viewLifecycleOwner) {
+            binding.textTitle.text = it.name
+            binding.textReps.text = it.repsCount.toString()
+            Glide.with(requireContext())
+                .load(Uri.parse(it.image))
+                .into(binding.imageExercise)
+        }
+
+        binding.buttonContinue.setOnClickListener {
+            viewModel.nextSession()
+        }
     }
 
 }

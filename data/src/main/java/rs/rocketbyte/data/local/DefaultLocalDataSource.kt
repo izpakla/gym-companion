@@ -22,11 +22,16 @@ class DefaultLocalDataSource(private val assetManager: AssetManager) : LocalData
         workoutDirs?.forEach {
             val inputStream = assetManager.open("$ROOT/$it/$CONFIG")
             val reader = InputStreamReader(inputStream, "UTF-8")
-            val workout: Workout = gson.fromJson(reader, Workout::class.java)
-            workouts.add(workout)
+            workouts.add(fixAssetPath(it, gson.fromJson(reader, Workout::class.java)))
         }
 
         return workouts
+    }
+
+    private fun fixAssetPath(dir: String, workout: Workout): Workout {
+        val sessions =
+            workout.session.map { it.copy(image = "file:///android_asset/$ROOT/$dir/${it.image}") }
+        return workout.copy(session = sessions)
     }
 
 }

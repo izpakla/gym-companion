@@ -12,7 +12,7 @@
     {
       "name": "Bench Press",
       "description": "",
-      "image": "",
+      "image": "assets/bench_press.gif",
       "set_count": 3,
       "rest_duration": 180,
       "reps_count": 10
