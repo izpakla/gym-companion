@@ -8,7 +8,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rs.rocketbyte.core.model.Workout
-import rs.rocketbyte.core.usecase.workout.WorkoutUseCase
+import rs.rocketbyte.core.workout.WorkoutUseCase
 import javax.inject.Inject
 
 @HiltViewModel

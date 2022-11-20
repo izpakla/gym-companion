@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Gym</string>
     <string name="skip">Skip</string>
+    <string name="start_workout">Start workout</string>
 </resources>

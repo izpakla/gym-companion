@@ -4,7 +4,7 @@
     {
       "name": "Running",
       "description": "",
-      "image": "",
+      "image": "assets/running.webp",
       "set_count": 1,
       "rest_duration": 360,
       "reps_count": 1
@@ -20,7 +20,7 @@
     {
       "name": "Running",
       "description": "",
-      "image": "",
+      "image": "assets/running.webp",
       "set_count": 1,
       "rest_duration": 1200,
       "reps_count": 1

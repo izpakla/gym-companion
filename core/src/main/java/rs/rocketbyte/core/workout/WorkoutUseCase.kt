@@ -1,4 +1,4 @@
-package rs.rocketbyte.core.usecase.workout
+package rs.rocketbyte.core.workout
 
 import rs.rocketbyte.core.model.Workout
 

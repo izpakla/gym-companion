@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import rs.rocketbyte.core.model.Workout
@@ -38,15 +39,34 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         }*/
 
         viewModel.currentSession.observe(viewLifecycleOwner) {
-            binding.textTitle.text = it.name
-            binding.textReps.text = it.repsCount.toString()
+            val session = it.first
+            val set = it.second
+            binding.textTitle.text = session.name
+            binding.textReps.text = session.repsCount.toString()
+            binding.textSet.text = "${set + 1} / ${session.setCount}"
             Glide.with(requireContext())
-                .load(Uri.parse(it.image))
+                .load(Uri.parse(session.image))
                 .into(binding.imageExercise)
         }
 
+        viewModel.nextState.observe(viewLifecycleOwner) {
+            binding.buttonContinue.isEnabled = it.second
+            binding.buttonContinue.text = it.first
+        }
+
+        binding.textSkip.setOnClickListener {
+            next()
+        }
+
         binding.buttonContinue.setOnClickListener {
-            viewModel.nextSession()
+            next()
+        }
+    }
+
+    private fun next() {
+        val hasNext = viewModel.next()
+        if (!hasNext) {
+            findNavController().navigateUp()
         }
     }
 
