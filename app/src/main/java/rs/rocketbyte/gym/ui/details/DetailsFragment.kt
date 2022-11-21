@@ -66,7 +66,7 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
     private fun next() {
         val hasNext = viewModel.next()
         if (!hasNext) {
-            findNavController().navigateUp()
+            findNavController().navigate(DetailsFragmentDirections.actionDetailsFragmentToHomeFragment())
         }
     }
 

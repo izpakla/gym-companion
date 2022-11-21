@@ -22,7 +22,7 @@ class HomeFragment : rs.rocketbyte.gym.ui.commons.BindingFragment<FragmentHomeBi
     private val adapter by lazy {
         HomeAdapter {
             findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToDetailsFragment(it)
+                HomeFragmentDirections.actionHomeFragmentToStartWorkoutFragment(it)
             )
         }
     }

@@ -34,22 +34,20 @@ class DetailsViewModel @Inject constructor() : ViewModel() {
         return true
     }
 
-    private fun loadState(state: Pair<Session, Int>, start: Boolean = true) {
+    private fun loadState(state: Pair<Session, Int>) {
         _currentSession.value = state
-        if (start) {
-            val session = state.first
-            countDownTimer?.cancel()
-            countDownTimer = object : CountDownTimer(session.restDuration * 1000L, 1000L) {
-                override fun onTick(millisUntilFinished: Long) {
-                    _nextState.postValue(Pair("${millisUntilFinished / 1000}", false))
-                }
-
-                override fun onFinish() {
-                    _nextState.postValue(Pair("Next", true))
-                }
-            }.apply {
-                start()
+        val session = state.first
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer(session.restDuration * 1000L, 1000L) {
+            override fun onTick(millisUntilFinished: Long) {
+                _nextState.postValue(Pair("${millisUntilFinished / 1000}", false))
             }
+
+            override fun onFinish() {
+                _nextState.postValue(Pair("Next", true))
+            }
+        }.apply {
+            start()
         }
     }
 
@@ -57,9 +55,7 @@ class DetailsViewModel @Inject constructor() : ViewModel() {
         if (_workout.value == null) {
             workoutSession = WorkoutSession(workout)
             _workout.value = workout
-            workoutSession?.getCurrentState()?.let {
-                loadState(it, false)
-            }
+            next()
         }
     }
 }
