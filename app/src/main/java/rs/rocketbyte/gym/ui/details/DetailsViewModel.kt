@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import rs.rocketbyte.core.model.Session
 import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.core.workout.WorkoutSession
+import rs.rocketbyte.core.workout.WorkoutState
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,8 +17,8 @@ class DetailsViewModel @Inject constructor() : ViewModel() {
     val workout: LiveData<Workout>
         get() = _workout
 
-    private val _currentSession = MutableLiveData<Pair<Session, Int>>()
-    val currentSession: LiveData<Pair<Session, Int>>
+    private val _currentSession = MutableLiveData<WorkoutState>()
+    val currentSession: LiveData<WorkoutState>
         get() = _currentSession
 
     private val _nextState = MutableLiveData<Pair<String, Boolean>>()
@@ -28,23 +28,51 @@ class DetailsViewModel @Inject constructor() : ViewModel() {
     private var workoutSession: WorkoutSession? = null
     private var countDownTimer: CountDownTimer? = null
 
-    fun next(): Boolean {
-        val state = workoutSession?.next() ?: return false
+    fun nextSession(): Boolean {
+        val state = workoutSession?.getNextSession() ?: return false
+        if (state is WorkoutState.FinishedWorkout) return false
         loadState(state)
         return true
     }
 
-    private fun loadState(state: Pair<Session, Int>) {
+    fun nextStep(): Boolean {
+        val state = workoutSession?.getNextState() ?: return false
+        if (state is WorkoutState.FinishedWorkout) return false
+        loadState(state)
+        return true
+    }
+
+    private fun loadState(state: WorkoutState) {
         _currentSession.value = state
-        val session = state.first
+
+        when (state) {
+            is WorkoutState.Ready -> {
+                stopTimer()
+                _nextState.postValue(Pair("Start exercise", true))
+            }
+            is WorkoutState.Started -> startTimer(state.session.restDuration, "Next set")
+            is WorkoutState.LastSet -> startTimer(state.session.restDuration, "Next exercise")
+            is WorkoutState.FinishedWorkout -> {
+                stopTimer()
+                _nextState.postValue(Pair("Close", true))
+            }
+        }
+    }
+
+    private fun stopTimer() {
         countDownTimer?.cancel()
-        countDownTimer = object : CountDownTimer(session.restDuration * 1000L, 1000L) {
+        countDownTimer = null
+    }
+
+    private fun startTimer(duration: Int, message: String) {
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer(duration * 1000L, 1000L) {
             override fun onTick(millisUntilFinished: Long) {
                 _nextState.postValue(Pair("${millisUntilFinished / 1000}", false))
             }
 
             override fun onFinish() {
-                _nextState.postValue(Pair("Next", true))
+                _nextState.postValue(Pair(message, true))
             }
         }.apply {
             start()
@@ -55,7 +83,7 @@ class DetailsViewModel @Inject constructor() : ViewModel() {
         if (_workout.value == null) {
             workoutSession = WorkoutSession(workout)
             _workout.value = workout
-            next()
+            nextStep()
         }
     }
 }

@@ -5,27 +5,57 @@ import rs.rocketbyte.core.model.Workout
 
 class WorkoutSession(private val workout: Workout) {
 
-    private var currentSession: Session = workout.session.first()
-    private var sessionPosition = 0
-    private var sessionSet = 0
+    private var ses: Int = -1
+    private var set: Int = 0
 
-    private fun hasMoreSets(): Boolean = currentSession.setCount > sessionSet
-    private fun hasMoreSessions(): Boolean = workout.session.size > sessionPosition
-
-    fun getCurrentState(): Pair<Session, Int>? =
-        if (hasMoreSessions() || hasMoreSets()) Pair(currentSession, sessionSet) else null
-
-    fun next(): Pair<Session, Int>? = if (hasMoreSets()) {
-        Pair(currentSession, sessionSet++)
-    } else {
-        val session = workout.session.getOrNull(++sessionPosition)
-        if (session != null) {
-            currentSession = session
-            sessionSet = 0
-            Pair(currentSession, sessionSet++)
-        } else {
-            null
+    fun getNextState(): WorkoutState {
+        return when (ses) {
+            -1 -> { // initial state
+                WorkoutState.Ready(workout.session[++ses], 0)
+            }
+            else -> { // Session in progress
+                when {
+                    set >= 0 && set + 1 < workout.session[ses].setCount -> {
+                        WorkoutState.Started(workout.session[ses], set++)
+                    }
+                    set + 1 == workout.session[ses].setCount -> {
+                        WorkoutState.LastSet(workout.session[ses], set++)
+                    }
+                    else -> {
+                        set = 0
+                        ses++
+                        if (ses == workout.session.size) {
+                            WorkoutState.FinishedWorkout(workout.session[workout.session.size - 1])
+                        } else {
+                            WorkoutState.Ready(workout.session[ses], 0)
+                        }
+                    }
+                }
+            }
         }
     }
 
+    fun getNextSession(): WorkoutState {
+        return when (ses) {
+            -1 -> { // initial state
+                WorkoutState.Ready(workout.session[++ses], 0)
+            }
+            else -> { // Session in progress
+                set = 0
+                ses++
+                if (ses == workout.session.size) {
+                    WorkoutState.FinishedWorkout(workout.session[workout.session.size - 1])
+                } else {
+                    WorkoutState.Ready(workout.session[ses], 0)
+                }
+            }
+        }
+    }
+}
+
+sealed class WorkoutState(val session: Session) {
+    data class Ready(val s: Session, val position: Int) : WorkoutState(s) // 0
+    data class Started(val s: Session, val position: Int) : WorkoutState(s) // 1
+    data class LastSet(val s: Session, val position: Int) : WorkoutState(s) // N
+    data class FinishedWorkout(val s: Session) : WorkoutState(s)
 }

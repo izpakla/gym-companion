@@ -1,50 +1,93 @@
 package rs.rocketbyte.core.workout
 
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import rs.rocketbyte.core.model.Session
 import rs.rocketbyte.core.model.Workout
 
 
 class WorkoutSessionUnitTest {
-    @Test
-    fun sessionForward_isCorrect() {
-        val workoutSession = WorkoutSession(createDemoWorkout())
-        var a1 = workoutSession.next()
-        assertNotNull(a1)
-        assertEquals("test1", a1?.first?.name)
-        assertEquals(0, a1?.second)
-        a1 = workoutSession.next()
-        assertEquals(1, a1?.second)
-        a1 = workoutSession.next()
-        assertEquals(2, a1?.second)
 
-        val a2 = workoutSession.next()
-        assertNotNull(a2)
-        assertEquals("test2", a2?.first?.name)
-        assertEquals(0, a2?.second)
+    @Test
+    fun getNextState_isCorrect() {
+        val workoutSession = WorkoutSession(createDemoWorkout())
+
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Ready)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Started)
+            assertEquals(0, (it as WorkoutState.Started).position)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Started)
+            assertEquals(1, (it as WorkoutState.Started).position)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.LastSet)
+            assertEquals(2, (it as WorkoutState.LastSet).position)
+        }
+
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Ready)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Started)
+            assertEquals(0, (it as WorkoutState.Started).position)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Started)
+            assertEquals(1, (it as WorkoutState.Started).position)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Started)
+            assertEquals(2, (it as WorkoutState.Started).position)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Started)
+            assertEquals(3, (it as WorkoutState.Started).position)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.LastSet)
+            assertEquals(4, (it as WorkoutState.LastSet).position)
+        }
+
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Ready)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.LastSet)
+            assertEquals(0, (it as WorkoutState.LastSet).position)
+        }
+
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.FinishedWorkout)
+        }
+
     }
 
     @Test
-    fun sessionForwardSetCount_isCorrect() {
+    fun getNextSession_isCorrect() {
         val workoutSession = WorkoutSession(createDemoWorkout())
 
-        repeat(3) {
-            val pair = workoutSession.next()!!
-            assertEquals("test1", pair.first.name)
-            assertEquals(it, pair.second)
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.Ready)
         }
-        repeat(5) {
-            val pair = workoutSession.next()!!
-            assertEquals("test2", pair.first.name)
-            assertEquals(it, pair.second)
+        workoutSession.getNextSession().let {
+            assertTrue(it is WorkoutState.Ready)
         }
-        repeat(1) {
-            val pair = workoutSession.next()!!
-            assertEquals("test3", pair.first.name)
-            assertEquals(it, pair.second)
+        workoutSession.getNextSession().let {
+            assertTrue(it is WorkoutState.Ready)
         }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.LastSet)
+            assertEquals(0, (it as WorkoutState.LastSet).position)
+        }
+        workoutSession.getNextState().let {
+            assertTrue(it is WorkoutState.FinishedWorkout)
+        }
+
     }
 
 }
