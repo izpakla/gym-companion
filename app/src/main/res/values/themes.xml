@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Template" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
@@ -11,28 +11,6 @@
         <item name="colorOnSecondary">@color/primaryTextColor</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
-        <item name="textAppearanceHeadline5">@style/myTextAppearanceHeadline5</item>
-        <item name="textAppearanceSubtitle1">@style/myTextAppearanceSubtitle1</item>
-        <item name="textAppearanceSubtitle2">@style/myTextAppearanceSubtitle2</item>
-        <item name="textAppearanceBody2">@style/myTextAppearanceBody2</item>
-        <item name="titleTextAppearance">@style/myTextAppearanceHeadline5</item>
-    </style>
-
-    <style name="myTextAppearanceHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="android:textColor">@color/primaryColor</item>
-    </style>
-
-    <style name="myTextAppearanceSubtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textColor">@color/primaryColor</item>
-    </style>
-
-    <style name="myTextAppearanceSubtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="android:textColor">@color/primaryLightColor</item>
-    </style>
-
-    <style name="myTextAppearanceBody2" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="android:textColor">@color/onBackgroundTextColor</item>
     </style>
 
 </resources>

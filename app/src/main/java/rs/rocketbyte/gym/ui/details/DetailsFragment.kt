@@ -1,6 +1,5 @@
 package rs.rocketbyte.gym.ui.details
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +9,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import rs.rocketbyte.core.model.Session
 import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.core.workout.WorkoutState
 import rs.rocketbyte.gym.R
+import rs.rocketbyte.gym.commons.image.ImageLoader
 import rs.rocketbyte.gym.databinding.FragmentDetailsBinding
 import rs.rocketbyte.gym.ui.commons.BindingFragment
 import rs.rocketbyte.gym.ui.main.MainViewModel
@@ -85,9 +84,7 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         binding.textReps.text = getString(R.string.set_reps, session.repsCount.toString())
         binding.textDuration.text = getString(R.string.set_duration, toMin(session.setDuration))
         binding.textDescription.text = session.description
-        Glide.with(requireContext())
-            .load(Uri.parse(session.image))
-            .into(binding.imageExercise)
+        ImageLoader.load(requireContext(), session.image, binding.imageExercise)
     }
 
     private fun toMin(s: Int): String {
