@@ -7,6 +7,6 @@ data class Session(
     @SerializedName("description") val description: String,
     @SerializedName("image") val image: String,
     @SerializedName("set_count") val setCount: Int,
-    @SerializedName("rest_duration") val restDuration: Int,
+    @SerializedName("set_duration") val setDuration: Int,
     @SerializedName("reps_count") val repsCount: Int
 )

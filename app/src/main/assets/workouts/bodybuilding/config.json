@@ -1,28 +1,29 @@
 {
   "name": "Bodybuilder",
+  "description": "Session 1: Chest, Triceps\nSession 2: Back, Biceps\nSession 3: Legs, Shoulders\n\nThis one places your three largest muscle groups on their own days, with the smaller muscle groups supplementing them. Generally speaking, the above is the best way to split up the muscle groups. However, if you have specific muscles that are lagging and need more attention (for example, your shoulders or legs), then you can structure the split in different ways.",
   "session": [
     {
-      "name": "Running",
+      "name": "Warm Up Running",
       "description": "",
       "image": "assets/running.webp",
       "set_count": 1,
-      "rest_duration": 360,
+      "set_duration": 10,
       "reps_count": 1
     },
     {
       "name": "Bench Press",
-      "description": "",
+      "description": "Lie face up on a flat bench, and grip a barbell with the hands slightly wider than shoulder-width. Press the feet into the ground and the hips into the bench while lifting the bar off the rack. Slowly lower the bar to the chest by allowing the elbows to bend out to the side. Stop when the elbows are just below the bench, and press feet into the floor to press the weight straight up to return to the starting position.",
       "image": "assets/bench_press.gif",
       "set_count": 3,
-      "rest_duration": 180,
+      "set_duration": 10,
       "reps_count": 10
     },
     {
       "name": "Running",
       "description": "",
       "image": "assets/running.webp",
-      "set_count": 1,
-      "rest_duration": 1200,
+      "set_count": 2,
+      "set_duration": 10,
       "reps_count": 1
     }
   ]

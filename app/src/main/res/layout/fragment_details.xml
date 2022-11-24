@@ -22,7 +22,7 @@
         android:id="@+id/text_skip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/skip"
+        android:text="@string/next_exercise"
         app:layout_constraintBottom_toBottomOf="@id/text_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/text_title" />
@@ -44,8 +44,10 @@
         android:id="@+id/text_set"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/primaryColor"
         android:textAppearance="?textAppearanceSubtitle1"
         app:layout_constraintEnd_toEndOf="@id/image_exercise"
         app:layout_constraintStart_toStartOf="@id/image_exercise"
@@ -62,30 +64,44 @@
         app:layout_constraintEnd_toEndOf="@id/image_exercise"
         app:layout_constraintStart_toStartOf="@id/image_exercise"
         app:layout_constraintTop_toBottomOf="@id/text_set"
-        tools:text="6 - 10 reps" />
+        tools:text="Reps: 6 - 10" />
 
     <TextView
+        android:id="@+id/text_duration"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:textAppearance="?textAppearanceSubtitle2"
+        app:layout_constraintEnd_toEndOf="@id/image_exercise"
+        app:layout_constraintStart_toStartOf="@id/image_exercise"
+        app:layout_constraintTop_toBottomOf="@id/text_reps"
+        tools:text="Duration: 10:20 min" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_description"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
         android:ellipsize="end"
-        android:textAppearance="?textAppearanceBody1"
+        android:justificationMode="inter_word"
+        android:maxLines="10"
+        android:textAppearance="?textAppearanceBody2"
         app:layout_constraintBottom_toTopOf="@id/button_continue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_reps"
+        app:layout_constraintTop_toBottomOf="@id/text_duration"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
     <Button
         android:id="@+id/button_continue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:text="@string/start_workout"
         app:layout_constraintBottom_toTopOf="@id/text_skip_set"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="4dp"
         app:layout_constraintStart_toStartOf="parent"
         tools:enabled="false"
         tools:text="Remaining time: 2:45" />
@@ -93,11 +109,11 @@
     <TextView
         android:id="@+id/text_skip_set"
         android:layout_width="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:text="@string/skip_set"
+        android:layout_height="wrap_content"
         android:padding="8dp"
+        android:text="@string/next_set"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_height="wrap_content" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

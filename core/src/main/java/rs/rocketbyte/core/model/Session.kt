@@ -9,6 +9,6 @@ data class Session(
     val description: String,
     val image: String,
     val setCount: Int,
-    val restDuration: Int,
+    val setDuration: Int,
     val repsCount: Int
 ) : Parcelable

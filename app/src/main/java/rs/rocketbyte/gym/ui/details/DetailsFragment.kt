@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -14,9 +15,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import rs.rocketbyte.core.model.Session
 import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.core.workout.WorkoutState
+import rs.rocketbyte.gym.R
 import rs.rocketbyte.gym.databinding.FragmentDetailsBinding
 import rs.rocketbyte.gym.ui.commons.BindingFragment
 import rs.rocketbyte.gym.ui.main.MainViewModel
+
 
 @AndroidEntryPoint
 class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
@@ -41,9 +44,12 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
             binding.textTitle.text = it.name
         }*/
 
+        viewModel.canSkipExercise.observe(viewLifecycleOwner) {
+            binding.textSkip.isVisible = it
+        }
+
         viewModel.currentSession.observe(viewLifecycleOwner) {
-            binding.textSkipSet.isInvisible =
-                it is WorkoutState.FinishedWorkout || it is WorkoutState.Ready
+            binding.textSkipSet.isInvisible = it is WorkoutState.Ready
             when (it) {
                 is WorkoutState.LastSet -> updateSessionUi(it.session, it.position)
                 is WorkoutState.Ready -> updateSessionUi(it.session, -1)
@@ -54,6 +60,9 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
 
         viewModel.nextState.observe(viewLifecycleOwner) {
             binding.buttonContinue.isEnabled = it.second
+            if (it.second) {
+                binding.textSkipSet.isInvisible = true
+            }
             binding.buttonContinue.text = it.first
         }
 
@@ -72,11 +81,19 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
 
     private fun updateSessionUi(session: Session, set: Int) {
         binding.textTitle.text = session.name
-        binding.textReps.text = session.repsCount.toString()
-        binding.textSet.text = "${set + 1} / ${session.setCount}"
+        binding.textSet.text = getString(R.string.current_set, "${set + 1} / ${session.setCount}")
+        binding.textReps.text = getString(R.string.set_reps, session.repsCount.toString())
+        binding.textDuration.text = getString(R.string.set_duration, toMin(session.setDuration))
+        binding.textDescription.text = session.description
         Glide.with(requireContext())
             .load(Uri.parse(session.image))
             .into(binding.imageExercise)
+    }
+
+    private fun toMin(s: Int): String {
+        val sec: Int = s % 60
+        val min: Int = s / 60 % 60
+        return "${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}"
     }
 
     private fun next(hasNext: Boolean) {

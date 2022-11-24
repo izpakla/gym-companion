@@ -8,6 +8,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import rs.rocketbyte.core.util.UseCaseInjector
 import rs.rocketbyte.core.workout.WorkoutUseCase
+import rs.rocketbyte.gym.commons.text.DefaultTextProvider
+import rs.rocketbyte.gym.commons.text.TextProvider
 import javax.inject.Singleton
 
 @Module
@@ -20,5 +22,11 @@ object UseCaseModule {
         @ApplicationContext context: Context
     ): WorkoutUseCase =
         UseCaseInjector.getDefaultExampleUseCase(context)
+
+    @Singleton
+    @Provides
+    fun provideTextProvider(
+        @ApplicationContext context: Context
+    ): TextProvider = DefaultTextProvider(context)
 
 }

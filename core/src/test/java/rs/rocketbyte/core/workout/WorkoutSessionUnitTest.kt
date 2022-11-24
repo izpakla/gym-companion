@@ -1,7 +1,6 @@
 package rs.rocketbyte.core.workout
 
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import rs.rocketbyte.core.model.Session
 import rs.rocketbyte.core.model.Workout
@@ -57,14 +56,9 @@ class WorkoutSessionUnitTest {
             assertTrue(it is WorkoutState.Ready)
         }
         workoutSession.getNextState().let {
-            assertTrue(it is WorkoutState.LastSet)
-            assertEquals(0, (it as WorkoutState.LastSet).position)
-        }
-
-        workoutSession.getNextState().let {
             assertTrue(it is WorkoutState.FinishedWorkout)
         }
-
+        assertNull(workoutSession.getNextState())
     }
 
     @Test
@@ -81,13 +75,9 @@ class WorkoutSessionUnitTest {
             assertTrue(it is WorkoutState.Ready)
         }
         workoutSession.getNextState().let {
-            assertTrue(it is WorkoutState.LastSet)
-            assertEquals(0, (it as WorkoutState.LastSet).position)
-        }
-        workoutSession.getNextState().let {
             assertTrue(it is WorkoutState.FinishedWorkout)
         }
-
+        assertNull(workoutSession.getNextSession())
     }
 
 }
@@ -99,7 +89,7 @@ private fun createDemoWorkout(): Workout {
             description = "testd1",
             image = "",
             setCount = 3,
-            restDuration = 100,
+            setDuration = 100,
             repsCount = 10
         ),
         Session(
@@ -107,7 +97,7 @@ private fun createDemoWorkout(): Workout {
             description = "testd2",
             image = "",
             setCount = 5,
-            restDuration = 100,
+            setDuration = 100,
             repsCount = 10
         ),
         Session(
@@ -115,9 +105,9 @@ private fun createDemoWorkout(): Workout {
             description = "testd3",
             image = "",
             setCount = 1,
-            restDuration = 100,
+            setDuration = 100,
             repsCount = 10
         )
     )
-    return Workout("workout", sessions)
+    return Workout("workout", "description", sessions)
 }

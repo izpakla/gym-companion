@@ -8,7 +8,7 @@ class WorkoutSession(private val workout: Workout) {
     private var ses: Int = -1
     private var set: Int = 0
 
-    fun getNextState(): WorkoutState {
+    fun getNextState(): WorkoutState? {
         return when (ses) {
             -1 -> { // initial state
                 WorkoutState.Ready(workout.session[++ses], 0)
@@ -19,13 +19,18 @@ class WorkoutSession(private val workout: Workout) {
                         WorkoutState.Started(workout.session[ses], set++)
                     }
                     set + 1 == workout.session[ses].setCount -> {
-                        WorkoutState.LastSet(workout.session[ses], set++)
+                        if (ses + 1 == workout.session.size) {
+                            set++
+                            WorkoutState.FinishedWorkout(workout.session[workout.session.size - 1])
+                        } else {
+                            WorkoutState.LastSet(workout.session[ses], set++)
+                        }
                     }
                     else -> {
                         set = 0
                         ses++
                         if (ses == workout.session.size) {
-                            WorkoutState.FinishedWorkout(workout.session[workout.session.size - 1])
+                            null
                         } else {
                             WorkoutState.Ready(workout.session[ses], 0)
                         }
@@ -35,7 +40,7 @@ class WorkoutSession(private val workout: Workout) {
         }
     }
 
-    fun getNextSession(): WorkoutState {
+    fun getNextSession(): WorkoutState? {
         return when (ses) {
             -1 -> { // initial state
                 WorkoutState.Ready(workout.session[++ses], 0)
@@ -44,7 +49,7 @@ class WorkoutSession(private val workout: Workout) {
                 set = 0
                 ses++
                 if (ses == workout.session.size) {
-                    WorkoutState.FinishedWorkout(workout.session[workout.session.size - 1])
+                    null
                 } else {
                     WorkoutState.Ready(workout.session[ses], 0)
                 }

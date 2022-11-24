@@ -29,6 +29,7 @@ class StartWorkoutFragment : BindingFragment<FragmentStartWorkoutBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.textDescription.text = workout.description
         binding.buttonStartWorkout.setOnClickListener {
             findNavController().navigate(
                 StartWorkoutFragmentDirections.actionStartWorkoutFragmentToDetailsFragment(
