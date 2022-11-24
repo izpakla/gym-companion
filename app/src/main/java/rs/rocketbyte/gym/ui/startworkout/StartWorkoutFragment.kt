@@ -33,7 +33,8 @@ class StartWorkoutFragment : BindingFragment<FragmentStartWorkoutBinding>() {
         binding.buttonStartWorkout.setOnClickListener {
             findNavController().navigate(
                 StartWorkoutFragmentDirections.actionStartWorkoutFragmentToDetailsFragment(
-                    workout
+                    workout,
+                    workout.name
                 )
             )
         }

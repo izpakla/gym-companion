@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.Template" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Template" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
@@ -16,6 +16,7 @@
         <item name="textAppearanceSubtitle1">@style/myTextAppearanceSubtitle1</item>
         <item name="textAppearanceSubtitle2">@style/myTextAppearanceSubtitle2</item>
         <item name="textAppearanceBody2">@style/myTextAppearanceBody2</item>
+        <item name="titleTextAppearance">@style/myTextAppearanceHeadline5</item>
     </style>
 
     <style name="myTextAppearanceHeadline5" parent="TextAppearance.MaterialComponents.Headline5">
