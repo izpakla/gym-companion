@@ -1,6 +1,7 @@
 {
   "name": "Bodybuilder",
   "description": "Session 1: Chest, Triceps\nSession 2: Back, Biceps\nSession 3: Legs, Shoulders\n\nThis one places your three largest muscle groups on their own days, with the smaller muscle groups supplementing them. Generally speaking, the above is the best way to split up the muscle groups. However, if you have specific muscles that are lagging and need more attention (for example, your shoulders or legs), then you can structure the split in different ways.",
+  "cover_image": "https://cdn.shopify.com/s/files/1/1633/7705/files/best_3_day_split_480x480.jpg?v=1624719389",
   "session": [
     {
       "name": "Warm Up Running",

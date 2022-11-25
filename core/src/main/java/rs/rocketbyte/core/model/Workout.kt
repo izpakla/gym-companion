@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class Workout(
     val name: String,
     val description: String,
+    val coverImage: String,
     val session: List<Session>
 ) : Parcelable

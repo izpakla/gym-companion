@@ -11,15 +11,22 @@
         android:layout_gravity="center"
         android:layout_margin="16dp"
         android:minHeight="56dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:contentPadding="12dp">
+        card_view:cardCornerRadius="4dp">
+
+        <ImageView
+            android:id="@+id/image_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/text_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#66000000"
+            android:padding="8dp"
             android:textAppearance="?textAppearanceSubtitle1"
+            android:textColor="#ffffff"
             tools:text="BODYBUILDER" />
 
     </androidx.cardview.widget.CardView>

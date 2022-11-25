@@ -11,8 +11,17 @@ object ImageLoader {
     fun load(context: Context, image: String, imageView: ImageView) {
         Glide.with(context)
             .load(Uri.parse(image))
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .diskCacheStrategy(if (image.startsWith("http")) DiskCacheStrategy.RESOURCE else DiskCacheStrategy.DATA)
             .into(imageView)
     }
+
+    fun loadCrop(context: Context, image: String, imageView: ImageView) {
+        Glide.with(context)
+            .load(Uri.parse(image))
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+            .centerCrop()
+            .into(imageView)
+    }
+
 
 }

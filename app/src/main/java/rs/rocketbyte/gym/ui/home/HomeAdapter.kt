@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import rs.rocketbyte.core.model.Workout
+import rs.rocketbyte.gym.commons.image.ImageLoader
 import rs.rocketbyte.gym.databinding.ItemWorkoutBinding
 
 class HomeAdapter(private val onClick: (Workout) -> Unit) :
@@ -39,6 +40,11 @@ class HomeAdapter(private val onClick: (Workout) -> Unit) :
         val workout = items[position]
 
         holder.itemWorkoutBinding.textTitle.text = workout.name
+        ImageLoader.loadCrop(
+            holder.itemView.context,
+            workout.coverImage,
+            holder.itemWorkoutBinding.imageBanner
+        )
         holder.itemWorkoutBinding.cardView.tag = workout
     }
 

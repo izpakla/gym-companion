@@ -7,6 +7,7 @@ fun Workout.map(): rs.rocketbyte.core.model.Workout {
     return rs.rocketbyte.core.model.Workout(
         name = name,
         description = description,
+        coverImage = coverImage,
         session = session.map { it.map() }
     )
 }
