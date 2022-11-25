@@ -2,19 +2,22 @@ package rs.rocketbyte.data.util
 
 import android.content.Context
 import rs.rocketbyte.data.local.DefaultLocalDataSource
-import rs.rocketbyte.data.remote.DefaultRemoteDataSource
-import rs.rocketbyte.data.remote.api.RestApiConfig
-import rs.rocketbyte.data.repository.example.DefaultWorkoutRepository
-import rs.rocketbyte.data.repository.example.WorkoutRepository
+import rs.rocketbyte.data.remote.FirebaseRemoteDataSource
+import rs.rocketbyte.data.repository.share.DefaultShareRepository
+import rs.rocketbyte.data.repository.share.ShareRepository
+import rs.rocketbyte.data.repository.workout.DefaultWorkoutRepository
+import rs.rocketbyte.data.repository.workout.WorkoutRepository
 
 object RepositoryInjector {
 
-    fun getDefaultExampleRepository(
-        context: Context,
-        restApiConfig: RestApiConfig = RestApiConfig.loadConfig(context)
+    fun getWorkoutRepository(
+        context: Context
     ): WorkoutRepository = DefaultWorkoutRepository(
-        DefaultRemoteDataSource(restApiConfig),
-        DefaultLocalDataSource(context.assets)
+        DefaultLocalDataSource(context.assets, GsonProvider.gson)
+    )
+
+    fun getShareRepository(): ShareRepository = DefaultShareRepository(
+        FirebaseRemoteDataSource(GsonProvider.gson)
     )
 
 }

@@ -4,6 +4,7 @@ plugins {
     alias libs.plugins.hilt.plugin
     alias libs.plugins.kotlin.kapt
     alias libs.plugins.navigation.safeargs.plugin
+    alias libs.plugins.gms.google.services
 }
 
 android {
@@ -44,23 +45,21 @@ dependencies {
     implementation libs.android.appcompat
     implementation libs.android.material
 
-    // Navigation
     implementation libs.navigation.ui
     implementation libs.navigation.fragment
 
-    // KTX
     implementation libs.android.ktx.core
     implementation libs.android.ktx.fragment
     implementation libs.android.ktx.lifecycle.livedata
     implementation libs.android.ktx.lifecycle.viewmodel
 
-    // Hilt
     implementation libs.android.hilt
     kapt libs.android.hilt.compiler
 
-    // Glide
     implementation libs.glide
     annotationProcessor libs.glide
+
+    implementation libs.firebase.analytics
 
     testImplementation libs.test.junit
     androidTestImplementation libs.android.test.junit

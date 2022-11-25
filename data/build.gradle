@@ -42,6 +42,9 @@ dependencies {
     implementation libs.retrofit2.converter.gson
     implementation libs.okhttp3.logging.interceptor
 
+    api platform(libs.firebase.bom)
+    implementation libs.firebase.storage
+
     testImplementation libs.test.junit
     androidTestImplementation libs.android.test.junit
     androidTestImplementation libs.android.test.espresso

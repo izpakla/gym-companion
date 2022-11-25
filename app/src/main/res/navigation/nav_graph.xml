@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_startWorkoutFragment"
             app:destination="@id/startWorkoutFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_shareWorkoutFragment"
+            app:destination="@id/shareWorkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -34,10 +37,23 @@
     <fragment
         android:id="@+id/startWorkoutFragment"
         android:name="rs.rocketbyte.gym.ui.startworkout.StartWorkoutFragment"
-        android:label="{title}">
+        android:label="{title}"
+        tools:layout="@layout/fragment_start_workout">
         <action
             android:id="@+id/action_startWorkoutFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
+        <argument
+            android:name="workout"
+            app:argType="rs.rocketbyte.core.model.Workout" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/shareWorkoutFragment"
+        android:name="rs.rocketbyte.gym.ui.share.ShareWorkoutFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_share_workout">
         <argument
             android:name="workout"
             app:argType="rs.rocketbyte.core.model.Workout" />

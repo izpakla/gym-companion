@@ -9,17 +9,22 @@ import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.gym.commons.image.ImageLoader
 import rs.rocketbyte.gym.databinding.ItemWorkoutBinding
 
-class HomeAdapter(private val onClick: (Workout) -> Unit) :
+class HomeAdapter(private val onItemAction: OnItemAction<Workout>) :
     RecyclerView.Adapter<HomeAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(
         val itemWorkoutBinding: ItemWorkoutBinding,
-        private val onClick: (Workout) -> Unit
+        private val onItemAction: OnItemAction<Workout>
     ) : ViewHolder(itemWorkoutBinding.root) {
         init {
             itemWorkoutBinding.cardView.setOnClickListener {
                 val workout: Workout = it.tag as? Workout ?: return@setOnClickListener
-                onClick(workout)
+                onItemAction.onSelect(workout)
+            }
+            itemWorkoutBinding.cardView.setOnLongClickListener {
+                val workout: Workout = it.tag as? Workout ?: return@setOnLongClickListener false
+                onItemAction.onShare(workout)
+                true
             }
         }
     }
@@ -33,7 +38,7 @@ class HomeAdapter(private val onClick: (Workout) -> Unit) :
                 parent,
                 false
             ),
-            onClick
+            onItemAction
         )
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
@@ -55,5 +60,10 @@ class HomeAdapter(private val onClick: (Workout) -> Unit) :
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
+    }
+
+    interface OnItemAction<T> {
+        fun onSelect(item: T)
+        fun onShare(item: T)
     }
 }

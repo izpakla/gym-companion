@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.gym.databinding.FragmentHomeBinding
 import rs.rocketbyte.gym.ui.main.MainViewModel
 
@@ -20,12 +21,25 @@ class HomeFragment : rs.rocketbyte.gym.ui.commons.BindingFragment<FragmentHomeBi
     private val viewModel: HomeViewModel by viewModels()
 
     private val adapter by lazy {
-        HomeAdapter {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToStartWorkoutFragment(it, it.name)
-            )
-        }
+        HomeAdapter(object : HomeAdapter.OnItemAction<Workout> {
+            override fun onSelect(item: Workout) {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToStartWorkoutFragment(item, item.name)
+                )
+            }
+
+            override fun onShare(item: Workout) {
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToShareWorkoutFragment(
+                        item,
+                        item.name
+                    )
+                )
+            }
+
+        })
     }
+
 
     override fun onBinderCreate(
         inflater: LayoutInflater,

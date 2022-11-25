@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,14 +16,11 @@ import rs.rocketbyte.gym.R
 import rs.rocketbyte.gym.commons.image.ImageLoader
 import rs.rocketbyte.gym.databinding.FragmentDetailsBinding
 import rs.rocketbyte.gym.ui.commons.BindingFragment
-import rs.rocketbyte.gym.ui.main.MainViewModel
 
 
 @AndroidEntryPoint
 class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
 
-    // Example use, remove if not needed
-    private val mainViewModel: MainViewModel by activityViewModels()
     private val viewModel: DetailsViewModel by viewModels()
 
     private val workout: Workout by lazy { DetailsFragmentArgs.fromBundle(requireArguments()).workout }
@@ -57,6 +53,10 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
             }
         }
 
+        viewModel.currentImage.observe(viewLifecycleOwner) {
+            ImageLoader.load(requireContext(), it, binding.imageExercise)
+        }
+
         viewModel.nextState.observe(viewLifecycleOwner) {
             binding.buttonContinue.isEnabled = it.second
             if (it.second) {
@@ -84,7 +84,6 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         binding.textReps.text = getString(R.string.set_reps, session.repsCount.toString())
         binding.textDuration.text = getString(R.string.set_duration, toMin(session.setDuration))
         binding.textDescription.text = session.description
-        ImageLoader.load(requireContext(), session.image, binding.imageExercise)
     }
 
     private fun toMin(s: Int): String {

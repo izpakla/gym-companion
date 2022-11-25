@@ -1,4 +1,4 @@
-package rs.rocketbyte.data.repository.example
+package rs.rocketbyte.data.repository.workout
 
 import rs.rocketbyte.data.model.Workout
 

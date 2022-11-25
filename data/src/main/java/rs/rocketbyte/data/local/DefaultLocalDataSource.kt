@@ -5,13 +5,12 @@ import com.google.gson.Gson
 import rs.rocketbyte.data.model.Workout
 import java.io.InputStreamReader
 
-class DefaultLocalDataSource(private val assetManager: AssetManager) : LocalDataSource {
+class DefaultLocalDataSource(private val assetManager: AssetManager, private val gson: Gson) :
+    LocalDataSource {
 
     companion object {
         private const val ROOT = "workouts"
         private const val CONFIG = "config.json"
-
-        private val gson = Gson()
     }
 
     override suspend fun getWorkouts(): List<Workout> = getWorkoutsFromAssets()
@@ -31,11 +30,12 @@ class DefaultLocalDataSource(private val assetManager: AssetManager) : LocalData
     private fun processWorkout(dir: String, workout: Workout): Workout {
         val sessions =
             workout.session.map {
-                if (it.image.startsWith("http")) {
+                it
+                /*if (it.image.startsWith("http")) {
                     it
                 } else {
                     it.copy(image = "file:///android_asset/$ROOT/$dir/${it.image}")
-                }
+                }*/
             }
         return workout.copy(session = sessions)
     }

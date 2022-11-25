@@ -7,7 +7,9 @@ import kotlinx.parcelize.Parcelize
 data class Session(
     val name: String,
     val description: String,
-    val image: String,
+    val muscleTargeted: String,
+    val imageStart: String,
+    val imageEnd: String,
     val setCount: Int,
     val setDuration: Int,
     val repsCount: Int
