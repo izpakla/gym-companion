@@ -9,10 +9,12 @@ import rs.rocketbyte.data.util.RepositoryInjector
 
 object UseCaseInjector {
 
-    fun getWorkoutUseCase(context: Context): WorkoutUseCase =
-        DefaultWorkoutUseCase(RepositoryInjector.getWorkoutRepository(context))
-
-    fun getShareUseCase(): ShareUseCase =
-        DefaultShareUseCase(RepositoryInjector.getShareRepository())
+    fun getDomainUseCases(context: Context): DomainUseCases {
+        val dataRepositories = RepositoryInjector.getDataRepositories(context)
+        val workoutUseCase: WorkoutUseCase =
+            DefaultWorkoutUseCase(dataRepositories.workoutRepository)
+        val shareUseCase: ShareUseCase = DefaultShareUseCase(dataRepositories.shareRepository)
+        return DomainUseCases(workoutUseCase, shareUseCase)
+    }
 
 }

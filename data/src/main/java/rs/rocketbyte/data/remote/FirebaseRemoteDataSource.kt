@@ -11,8 +11,8 @@ class FirebaseRemoteDataSource(private val gson: Gson = Gson()) : RemoteDataSour
     private val storage = Firebase.storage("gs://gym-app-39118.appspot.com/")
     private var storageRef = storage.reference
 
-    override fun uploadConfig(workout: Workout, onComplete: (String?) -> Unit) {
-        val configRef = storageRef.child("${workout.name.replace(' ', '-')}.json")
+    override fun uploadConfig(deviceId: String, workout: Workout, onComplete: (String?) -> Unit) {
+        val configRef = storageRef.child(getShareFileRef(deviceId, workout))
         configRef.updateMetadata(StorageMetadata())
         val uploadTask = configRef.putBytes(gson.toJson(workout).encodeToByteArray())
         uploadTask.addOnFailureListener {
@@ -30,8 +30,8 @@ class FirebaseRemoteDataSource(private val gson: Gson = Gson()) : RemoteDataSour
         }
     }
 
-    override fun deleteConfig(workout: Workout, onComplete: (Boolean) -> Unit) {
-        val configRef = storageRef.child("${workout.name.replace(' ', '-')}.json")
+    override fun deleteConfig(deviceId: String, workout: Workout, onComplete: (Boolean) -> Unit) {
+        val configRef = storageRef.child(getShareFileRef(deviceId, workout))
         val deleteTask = configRef.delete()
         deleteTask.addOnFailureListener {
             onComplete(false)
@@ -40,5 +40,8 @@ class FirebaseRemoteDataSource(private val gson: Gson = Gson()) : RemoteDataSour
             onComplete(true)
         }
     }
+
+    private fun getShareFileRef(deviceId: String, workout: Workout) =
+        "$deviceId/${workout.name.replace(' ', '-')}.json"
 
 }

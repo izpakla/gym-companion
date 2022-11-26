@@ -6,4 +6,6 @@ interface LocalDataSource {
 
     suspend fun getWorkouts(): List<Workout>
 
+    fun getDeviceId(): String
+
 }

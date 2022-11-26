@@ -9,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import rs.rocketbyte.core.audio.BeepPlayer
 import rs.rocketbyte.core.audio.MediaBeepPlayer
 import rs.rocketbyte.core.share.ShareUseCase
+import rs.rocketbyte.core.util.DomainUseCases
 import rs.rocketbyte.core.util.UseCaseInjector
 import rs.rocketbyte.core.workout.WorkoutUseCase
 import rs.rocketbyte.gym.R
@@ -22,14 +23,22 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideWorkoutUseCase(
+    fun provideDomainUseCases(
         @ApplicationContext context: Context
-    ): WorkoutUseCase =
-        UseCaseInjector.getWorkoutUseCase(context)
+    ): DomainUseCases =
+        UseCaseInjector.getDomainUseCases(context)
 
     @Singleton
     @Provides
-    fun provideShareUseCase(): ShareUseCase = UseCaseInjector.getShareUseCase()
+    fun provideWorkoutUseCase(
+        domainUseCases: DomainUseCases
+    ): WorkoutUseCase = domainUseCases.workoutUseCase
+
+    @Singleton
+    @Provides
+    fun provideShareUseCase(
+        domainUseCases: DomainUseCases
+    ): ShareUseCase = domainUseCases.shareUseCase
 
     @Singleton
     @Provides

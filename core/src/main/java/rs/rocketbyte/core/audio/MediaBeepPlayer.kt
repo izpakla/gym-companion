@@ -8,10 +8,11 @@ class MediaBeepPlayer(context: Context, beepRes: Int) : BeepPlayer {
 
     private val mediaPlayer = MediaPlayer.create(context, beepRes).apply {
         isLooping = true
+        setVolume(0.6f, 0.6f)
         setOnPreparedListener {
             Log.d("MediaBeepPlayer", "prepared")
         }
-        setOnErrorListener { mediaPlayer, i, i2 ->
+        setOnErrorListener { _, i, i2 ->
             Log.d("MediaBeepPlayer", "error i=$i, i2=$i2")
             false
         }
