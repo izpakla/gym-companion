@@ -11,7 +11,7 @@ object ImageLoader {
     fun load(context: Context, image: String, imageView: ImageView) {
         Glide.with(context)
             .load(Uri.parse(image))
-            .diskCacheStrategy(if (image.startsWith("http")) DiskCacheStrategy.RESOURCE else DiskCacheStrategy.DATA)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
             .into(imageView)
     }
 

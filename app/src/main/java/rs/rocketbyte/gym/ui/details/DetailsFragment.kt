@@ -9,13 +9,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import rs.rocketbyte.core.model.Session
+import rs.rocketbyte.core.model.Exercise
 import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.core.workout.WorkoutState
 import rs.rocketbyte.gym.R
-import rs.rocketbyte.gym.commons.image.ImageLoader
 import rs.rocketbyte.gym.databinding.FragmentDetailsBinding
 import rs.rocketbyte.gym.ui.commons.BindingFragment
+import rs.rocketbyte.gym.ui.details.pager.ImageStateAdapter
 
 
 @AndroidEntryPoint
@@ -25,6 +25,8 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
 
     private val workout: Workout by lazy { DetailsFragmentArgs.fromBundle(requireArguments()).workout }
 
+    private val imageStateAdapter by lazy { ImageStateAdapter(this) }
+
     override fun onBinderCreate(
         inflater: LayoutInflater,
         container: ViewGroup?
@@ -33,7 +35,7 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadWorkout(workout)
+        binding.assetMultipleImages.viewPager.adapter = imageStateAdapter
 
         /*viewModel.workout.observe(viewLifecycleOwner) {
             binding.textTitle.text = it.name
@@ -46,15 +48,15 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         viewModel.currentSession.observe(viewLifecycleOwner) {
             binding.textSkipSet.isInvisible = it is WorkoutState.Ready
             when (it) {
-                is WorkoutState.LastSet -> updateSessionUi(it.session, it.position)
-                is WorkoutState.Ready -> updateSessionUi(it.session, -1)
-                is WorkoutState.Started -> updateSessionUi(it.session, it.position)
+                is WorkoutState.LastSet -> updateSessionUi(it.exercise, it.position)
+                is WorkoutState.Ready -> updateSessionUi(it.exercise, -1)
+                is WorkoutState.Started -> updateSessionUi(it.exercise, it.position)
                 else -> {}
             }
         }
 
         viewModel.currentImage.observe(viewLifecycleOwner) {
-            ImageLoader.load(requireContext(), it, binding.imageExercise)
+            imageStateAdapter.setItems(it)
         }
 
         viewModel.nextState.observe(viewLifecycleOwner) {
@@ -76,20 +78,17 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
         binding.textSkip.setOnClickListener {
             next(viewModel.nextSession())
         }
+
+        viewModel.loadWorkout(workout)
     }
 
-    private fun updateSessionUi(session: Session, set: Int) {
+    private fun updateSessionUi(session: Exercise, set: Int) {
         binding.textTitle.text = session.name
         binding.textSet.text = getString(R.string.current_set, "${set + 1} / ${session.setCount}")
         binding.textReps.text = getString(R.string.set_reps, session.repsCount.toString())
-        binding.textDuration.text = getString(R.string.set_duration, toMin(session.setDuration))
+        binding.textDuration.text =
+            getString(R.string.set_duration, viewModel.secToMin(session.setDuration))
         binding.textDescription.text = session.description
-    }
-
-    private fun toMin(s: Int): String {
-        val sec: Int = s % 60
-        val min: Int = s / 60 % 60
-        return "${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}"
     }
 
     private fun next(hasNext: Boolean) {

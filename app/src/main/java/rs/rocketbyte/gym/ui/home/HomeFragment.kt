@@ -11,10 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.gym.databinding.FragmentHomeBinding
+import rs.rocketbyte.gym.ui.commons.BindingFragment
 import rs.rocketbyte.gym.ui.main.MainViewModel
 
 @AndroidEntryPoint
-class HomeFragment : rs.rocketbyte.gym.ui.commons.BindingFragment<FragmentHomeBinding>() {
+class HomeFragment : BindingFragment<FragmentHomeBinding>() {
 
     // Example use, remove if not needed
     private val mainViewModel: MainViewModel by activityViewModels()

@@ -61,6 +61,8 @@ dependencies {
 
     implementation libs.firebase.analytics
 
+    implementation libs.qr.reader
+
     testImplementation libs.test.junit
     androidTestImplementation libs.android.test.junit
     androidTestImplementation libs.android.test.espresso

@@ -2,8 +2,9 @@ package rs.rocketbyte.core.workout
 
 import org.junit.Assert.*
 import org.junit.Test
+import rs.rocketbyte.core.model.Assets
+import rs.rocketbyte.core.model.Exercise
 import rs.rocketbyte.core.model.Session
-import rs.rocketbyte.core.model.Workout
 
 
 class WorkoutSessionUnitTest {
@@ -68,46 +69,49 @@ class WorkoutSessionUnitTest {
         workoutSession.getNextState().let {
             assertTrue(it is WorkoutState.Ready)
         }
-        workoutSession.getNextSession().let {
+        workoutSession.getNextExercise().let {
             assertTrue(it is WorkoutState.Ready)
         }
-        workoutSession.getNextSession().let {
+        workoutSession.getNextExercise().let {
             assertTrue(it is WorkoutState.Ready)
         }
         workoutSession.getNextState().let {
             assertTrue(it is WorkoutState.FinishedWorkout)
         }
-        assertNull(workoutSession.getNextSession())
+        assertNull(workoutSession.getNextExercise())
     }
 
 }
 
-private fun createDemoWorkout(): Workout {
-    val sessions = arrayListOf(
-        Session(
+private fun createDemoWorkout(): Session {
+    val exercises = arrayListOf(
+        Exercise(
             name = "test1",
             description = "testd1",
-            image = "",
+            muscleTargeted = "",
+            assets = Assets(emptyList()),
             setCount = 3,
             setDuration = 100,
             repsCount = 10
         ),
-        Session(
+        Exercise(
             name = "test2",
             description = "testd2",
-            image = "",
+            muscleTargeted = "",
+            assets = Assets(emptyList()),
             setCount = 5,
             setDuration = 100,
             repsCount = 10
         ),
-        Session(
+        Exercise(
             name = "test3",
             description = "testd3",
-            image = "",
+            muscleTargeted = "",
+            assets = Assets(emptyList()),
             setCount = 1,
             setDuration = 100,
             repsCount = 10
         )
     )
-    return Workout("workout", "description", sessions)
+    return Session("Monday", exercises)
 }

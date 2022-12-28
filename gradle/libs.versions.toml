@@ -17,6 +17,7 @@ navigation = "2.5.3"
 retrofit = "2.9.0"
 okhttp-logging = "4.9.3"
 glide = "4.14.2"
+qr-reader = "1.5.2"
 
 firebase-bom = "31.1.0"
 
@@ -44,6 +45,7 @@ retrofit2-converter-gson = { module = "com.squareup.retrofit2:converter-gson", v
 navigation-ui = { module = "androidx.navigation:navigation-ui", version.ref = "navigation" }
 navigation-fragment = { module = "androidx.navigation:navigation-fragment", version.ref = "navigation" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+qr-reader = { module = "io.github.g00fy2.quickie:quickie-bundled", version.ref = "qr-reader" }
 
 firebase-bom = { module = 'com.google.firebase:firebase-bom', version.ref = "firebase-bom" }
 firebase-storage = { module = 'com.google.firebase:firebase-storage-ktx' }

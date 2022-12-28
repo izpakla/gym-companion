@@ -28,16 +28,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/text_title" />
 
-    <ImageView
-        android:id="@+id/image_exercise"
+    <FrameLayout
+        android:id="@+id/asset_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:padding="4dp"
         app:layout_constraintDimensionRatio="16:10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_title" />
+        app:layout_constraintTop_toBottomOf="@id/text_title">
+
+        <include
+            android:id="@+id/asset_multiple_images"
+            layout="@layout/asset_item_pager" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/text_set"
@@ -49,9 +54,9 @@
         android:gravity="start"
         android:textAppearance="?textAppearanceSubtitle1"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/image_exercise"
-        app:layout_constraintStart_toStartOf="@id/image_exercise"
-        app:layout_constraintTop_toBottomOf="@id/image_exercise"
+        app:layout_constraintEnd_toEndOf="@id/asset_container"
+        app:layout_constraintStart_toStartOf="@id/asset_container"
+        app:layout_constraintTop_toBottomOf="@id/asset_container"
         tools:text="Set: 1 / 5" />
 
     <TextView
@@ -63,8 +68,8 @@
         android:layout_marginEnd="32dp"
         android:gravity="start"
         android:textAppearance="?textAppearanceSubtitle2"
-        app:layout_constraintEnd_toEndOf="@id/image_exercise"
-        app:layout_constraintStart_toStartOf="@id/image_exercise"
+        app:layout_constraintEnd_toEndOf="@id/asset_container"
+        app:layout_constraintStart_toStartOf="@id/asset_container"
         app:layout_constraintTop_toBottomOf="@id/text_set"
         tools:text="Reps: 6 - 10" />
 
@@ -77,8 +82,8 @@
         android:layout_marginEnd="32dp"
         android:gravity="start"
         android:textAppearance="?textAppearanceSubtitle2"
-        app:layout_constraintEnd_toEndOf="@id/image_exercise"
-        app:layout_constraintStart_toStartOf="@id/image_exercise"
+        app:layout_constraintEnd_toEndOf="@id/asset_container"
+        app:layout_constraintStart_toStartOf="@id/asset_container"
         app:layout_constraintTop_toBottomOf="@id/text_reps"
         tools:text="Duration: 10:20 min" />
 

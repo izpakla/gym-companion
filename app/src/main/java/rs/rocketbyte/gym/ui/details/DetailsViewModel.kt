@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import rs.rocketbyte.core.audio.BeepPlayer
+import rs.rocketbyte.core.model.Assets
 import rs.rocketbyte.core.model.Workout
 import rs.rocketbyte.core.workout.WorkoutSession
 import rs.rocketbyte.core.workout.WorkoutState
@@ -35,17 +36,16 @@ class DetailsViewModel @Inject constructor(
     val canSkipExercise: LiveData<Boolean>
         get() = _canSkipExercise
 
-    private val _currentImage = MutableLiveData<String>()
-    val currentImage: LiveData<String>
+    private val _currentImage = MutableLiveData<List<String>>()
+    val currentImage: LiveData<List<String>>
         get() = _currentImage
 
     private var workoutSession: WorkoutSession? = null
     private var sessionCountDownTimer: CountDownTimer? = null
-    private var imageCountDownTimer: CountDownTimer? = null
 
     fun nextSession(): Boolean {
         beepPlayer.stop()
-        val state = workoutSession?.getNextSession() ?: return false
+        val state = workoutSession?.getNextExercise() ?: return false
         loadState(state)
         return true
     }
@@ -59,7 +59,8 @@ class DetailsViewModel @Inject constructor(
 
     private fun loadState(state: WorkoutState) {
         _currentSession.value = state
-        startImageTransition(state)
+
+        setAssets(state.exercise.assets)
 
         when (state) {
             is WorkoutState.Ready -> {
@@ -67,57 +68,32 @@ class DetailsViewModel @Inject constructor(
                 _nextState.postValue(Pair(textProvider.getText(R.string.exercise_start), true))
             }
             is WorkoutState.Started -> startSessionTimer(
-                state.session.setDuration,
+                state.exercise.setDuration,
                 textProvider.getText(R.string.exercise_next_set)
             )
             is WorkoutState.LastSet -> startSessionTimer(
-                state.session.setDuration,
+                state.exercise.setDuration,
                 textProvider.getText(R.string.exercise_next)
             )
             is WorkoutState.FinishedWorkout -> {
                 _canSkipExercise.value = false
                 startSessionTimer(
-                    state.session.setDuration,
+                    state.exercise.setDuration,
                     textProvider.getText(R.string.exercise_close)
                 )
             }
         }
     }
 
-    private fun startImageTransition(state: WorkoutState) {
-        if (state.session.imageStart.isNotBlank() && state.session.imageEnd.isNotBlank()) {
-            stopImageTransition()
-            val sequence = arrayOf(state.session.imageStart, state.session.imageEnd)
-            imageCountDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1500) {
-
-                private var i = 0
-
-                override fun onTick(millisUntilFinished: Long) {
-                    val image = sequence[i++]
-                    i %= sequence.size
-                    _currentImage.postValue(image)
-                }
-
-                override fun onFinish() {}
-            }.apply {
-                start()
-            }
-        } else {
-            stopImageTransition()
-            _currentImage.postValue(state.session.imageStart)
-        }
-    }
-
-    private fun stopImageTransition() {
-        imageCountDownTimer?.cancel()
-        imageCountDownTimer = null
+    private fun setAssets(assets: Assets) {
+        _currentImage.postValue(assets.multipleImages)
     }
 
     private fun startSessionTimer(duration: Int, message: String, playBeep: Boolean = true) {
         sessionCountDownTimer?.cancel()
         sessionCountDownTimer = object : CountDownTimer(duration * 1000L, 1000L) {
             override fun onTick(millisUntilFinished: Long) {
-                _nextState.postValue(Pair("${(millisUntilFinished / 1000) + 1}", false))
+                _nextState.postValue(Pair(secToMin((millisUntilFinished / 1000) + 1), false))
             }
 
             override fun onFinish() {
@@ -129,6 +105,16 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
+    fun secToMin(s: Long): String {
+        return secToMin(s.toInt())
+    }
+
+    fun secToMin(s: Int): String {
+        val sec: Int = s % 60
+        val min: Int = s / 60 % 60
+        return "${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}"
+    }
+
     private fun stopSessionTimer() {
         sessionCountDownTimer?.cancel()
         sessionCountDownTimer = null
@@ -136,7 +122,7 @@ class DetailsViewModel @Inject constructor(
 
     fun loadWorkout(workout: Workout) {
         if (_workout.value == null) {
-            workoutSession = WorkoutSession(workout)
+            workoutSession = WorkoutSession(workout.sessions.first())
             _workout.value = workout
             nextStep()
         }

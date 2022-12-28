@@ -4,9 +4,12 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Workout(
+data class Exercise(
     val name: String,
     val description: String,
-    val coverImage: String,
-    val sessions: List<Session>
+    val muscleTargeted: String,
+    val assets: Assets,
+    val setCount: Int,
+    val setDuration: Int,
+    val repsCount: Int
 ) : Parcelable
