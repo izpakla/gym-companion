@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import rs.rocketbyte.core.model.Exercise
-import rs.rocketbyte.core.model.Workout
+import rs.rocketbyte.core.model.Session
 import rs.rocketbyte.core.workout.WorkoutState
 import rs.rocketbyte.gym.R
 import rs.rocketbyte.gym.databinding.FragmentDetailsBinding
@@ -23,7 +23,7 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
 
     private val viewModel: DetailsViewModel by viewModels()
 
-    private val workout: Workout by lazy { DetailsFragmentArgs.fromBundle(requireArguments()).workout }
+    private val session: Session by lazy { DetailsFragmentArgs.fromBundle(requireArguments()).session }
 
     private val imageStateAdapter by lazy { ImageStateAdapter(this) }
 
@@ -79,7 +79,7 @@ class DetailsFragment : BindingFragment<FragmentDetailsBinding>() {
             next(viewModel.nextSession())
         }
 
-        viewModel.loadWorkout(workout)
+        viewModel.loadWorkout(session)
     }
 
     private fun updateSessionUi(session: Exercise, set: Int) {

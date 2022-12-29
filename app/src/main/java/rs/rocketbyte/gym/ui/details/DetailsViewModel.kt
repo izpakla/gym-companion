@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import rs.rocketbyte.core.audio.BeepPlayer
 import rs.rocketbyte.core.model.Assets
-import rs.rocketbyte.core.model.Workout
+import rs.rocketbyte.core.model.Session
 import rs.rocketbyte.core.workout.WorkoutSession
 import rs.rocketbyte.core.workout.WorkoutState
 import rs.rocketbyte.gym.R
@@ -20,9 +20,9 @@ class DetailsViewModel @Inject constructor(
     private val beepPlayer: BeepPlayer
 ) : ViewModel() {
 
-    private val _workout = MutableLiveData<Workout>()
+    /*private val _workout = MutableLiveData<Workout>()
     val workout: LiveData<Workout>
-        get() = _workout
+        get() = _workout*/
 
     private val _currentSession = MutableLiveData<WorkoutState>()
     val currentSession: LiveData<WorkoutState>
@@ -120,10 +120,9 @@ class DetailsViewModel @Inject constructor(
         sessionCountDownTimer = null
     }
 
-    fun loadWorkout(workout: Workout) {
-        if (_workout.value == null) {
-            workoutSession = WorkoutSession(workout.sessions.first())
-            _workout.value = workout
+    fun loadWorkout(session: Session) {
+        if (workoutSession == null) {
+            workoutSession = WorkoutSession(session)
             nextStep()
         }
     }

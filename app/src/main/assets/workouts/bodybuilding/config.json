@@ -21,6 +21,25 @@
           "reps_count": 1
         }
       ]
+    },
+    {
+      "name": "Tuesday",
+      "exercises": [
+        {
+          "name": "Warm Up Running",
+          "description": "Treadmill running is a popular cardiovascular exercise performed on a machine that is available in most gyms. Performing this exercise on a treadmill allows you to adjust the speed of your running and, depending on the machine, perform it on an adjustable incline. Many machines also have built-in heart rate monitors and timers to help you track your progress.",
+          "muscle_targeted": "Quadriceps",
+          "assets": {
+            "multiple_images": [
+              "https://www.bodybuilding.com/images/2020/xdb/originals/xdb-81m-treadmill-running-m1-16x9.jpg",
+              "https://www.bodybuilding.com/images/2020/xdb/originals/xdb-81m-treadmill-running-m2-16x9.jpg"
+            ]
+          },
+          "set_count": 1,
+          "set_duration": 600,
+          "reps_count": 1
+        }
+      ]
     }
   ]
 }

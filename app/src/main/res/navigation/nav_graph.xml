@@ -23,8 +23,8 @@
         android:label="{title}"
         tools:layout="@layout/fragment_details">
         <argument
-            android:name="workout"
-            app:argType="rs.rocketbyte.core.model.Workout" />
+            android:name="session"
+            app:argType="rs.rocketbyte.core.model.Session" />
         <argument
             android:name="title"
             app:argType="string" />
